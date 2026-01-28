@@ -1,14 +1,11 @@
 import { Hono } from 'hono';
-import { createOneStudent, deleteOneStudent, getAllStudents, updateOneStudent } from './students.controller';
+import { createStudent, getStudents, updateStudent, deleteStudent } from './students.controller.js';
 
-const app = new Hono();
+const studentsRoute = new Hono();
 
-app.get('/students', getAllStudents);
+studentsRoute.get('/', getStudents);
+studentsRoute.post('/', createStudent);
+studentsRoute.put('/:id', updateStudent);
+studentsRoute.delete('/:id', deleteStudent);
 
-app.post('/students', createOneStudent);
-
-app.delete('/students/:id', deleteOneStudent);
-
-app.put('/students/:id', updateOneStudent);
-
-export default app;
+export default studentsRoute;

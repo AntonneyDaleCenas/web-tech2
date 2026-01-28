@@ -1,16 +1,18 @@
+import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
-import studentsRoute from './students/students.route'
-import { testConnection } from './config/database'
+import studentsRoute from './students/students.route.js'
 
 const app = new Hono()
-
-// Test database connection on startup
-testConnection()
 
 app.get('/', (c) => {
   return c.text('Hello Hono!')
 })
 
-app.route('/', studentsRoute)
+app.route('/students', studentsRoute);
 
-export default app
+serve({
+  fetch: app.fetch,
+  port: 3000
+}, (info) => {
+  console.log(`Server is running on http://localhost:${info.port}`)
+})
